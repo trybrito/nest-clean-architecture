@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "name": "Thiago Brito",
-  "email": "trybrito@example.com",
+  "email": "trybrito1@example.com",
   "password": "123456"
 }
 
@@ -14,8 +14,9 @@ Content-Type: application/json
 
 # @name authenticate
 POST {{baseUrl}}/sessions
+Content-Type: application/json
 
 {
-  "name": "Thiago Brito",
-  "email": "try@example.com",
+  "email": "trybrito@example.com",
+  "password": "123456"
 }
