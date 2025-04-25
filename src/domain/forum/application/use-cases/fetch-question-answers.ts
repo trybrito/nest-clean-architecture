@@ -1,8 +1,8 @@
-import { left, right, type Either } from '@/core/either'
+import { type Either, left, right } from '@/core/either'
+import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
+import type { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
 import type { Answer } from '../../enterprise/entities/answer'
 import type { AnswersRepository } from '../repositories/answers-repository'
-import type { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
-import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
 
 interface FetchQuestionAnswersUseCaseRequest {
 	questionId: string

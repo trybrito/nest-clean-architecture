@@ -1,15 +1,15 @@
 import { makeAnswer } from 'tests/factories/forum/make-answer'
+import { makeQuestion } from 'tests/factories/forum/make-question'
 import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
 import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
+import { InMemoryNotificationsRepository } from 'tests/repositories/notification/in-memory-notifications-repository'
+import { waitFor } from 'tests/utils/wait-for'
+import type { MockInstance } from 'vitest'
 import {
 	SendNotificationUseCase,
-	type SendNotificationUseCaseResponse,
 	type SendNotificationUseCaseRequest,
+	type SendNotificationUseCaseResponse,
 } from '../use-cases/send-notification'
-import { InMemoryNotificationsRepository } from 'tests/repositories/notification/in-memory-notifications-repository'
-import { makeQuestion } from 'tests/factories/forum/make-question'
-import type { MockInstance } from 'vitest'
-import { waitFor } from 'tests/utils/wait-for'
 import { OnQuestionBestAnswerChosen } from './on-questions-best-answer-chosen'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository

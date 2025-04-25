@@ -1,8 +1,8 @@
-import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
-import { makeAnswer } from 'tests/factories/forum/make-answer'
-import { FetchQuestionAnswersUseCase } from './fetch-question-answers'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { makeAnswer } from 'tests/factories/forum/make-answer'
+import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
+import { FetchQuestionAnswersUseCase } from './fetch-question-answers'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: FetchQuestionAnswersUseCase

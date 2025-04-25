@@ -1,12 +1,12 @@
-import { left, right, type Either } from '@/core/either'
-import type { Answer } from '../../enterprise/entities/answer'
-import type { AnswersRepository } from '../repositories/answers-repository'
-import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
-import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
-import type { AnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
-import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
-import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
+import { type Either, left, right } from '@/core/either'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
+import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
+import type { Answer } from '../../enterprise/entities/answer'
+import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
+import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
+import type { AnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
+import type { AnswersRepository } from '../repositories/answers-repository'
 
 interface EditAnswerUseCaseRequest {
 	answerId: string

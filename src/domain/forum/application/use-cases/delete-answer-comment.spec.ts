@@ -1,8 +1,8 @@
-import { InMemoryAnswerCommentsRepository } from 'tests/repositories/forum/in-memory-answer-comments-repository'
-import { DeleteAnswerCommentUseCase } from './delete-answer-comment'
-import { makeAnswerComment } from 'tests/factories/forum/make-answer-comment'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { makeAnswerComment } from 'tests/factories/forum/make-answer-comment'
+import { InMemoryAnswerCommentsRepository } from 'tests/repositories/forum/in-memory-answer-comments-repository'
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
+import { DeleteAnswerCommentUseCase } from './delete-answer-comment'
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
 let sut: DeleteAnswerCommentUseCase

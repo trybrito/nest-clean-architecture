@@ -1,7 +1,7 @@
-import { CommentOnAnswerUseCase } from './comment-on-answer'
-import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
-import { InMemoryAnswerCommentsRepository } from 'tests/repositories/forum/in-memory-answer-comments-repository'
 import { makeAnswer } from 'tests/factories/forum/make-answer'
+import { InMemoryAnswerCommentsRepository } from 'tests/repositories/forum/in-memory-answer-comments-repository'
+import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
+import { CommentOnAnswerUseCase } from './comment-on-answer'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository

@@ -1,8 +1,8 @@
 import type { Optional } from '@/core/@types/optional'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { AnswerAttachmentList } from './answer-attachment-list'
 import { AnswerCreatedEvent } from '../events/answer-created-event'
+import { AnswerAttachmentList } from './answer-attachment-list'
 
 export interface AnswerProps {
 	questionId: UniqueEntityId

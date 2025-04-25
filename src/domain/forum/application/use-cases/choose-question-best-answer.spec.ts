@@ -1,9 +1,9 @@
-import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
+import { makeAnswer } from 'tests/factories/forum/make-answer'
 import { makeQuestion } from 'tests/factories/forum/make-question'
 import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
-import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
-import { makeAnswer } from 'tests/factories/forum/make-answer'
+import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
+import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository

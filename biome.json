@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": ["dist", "node_modules", "prisma"]
+		"ignore": ["dist", "node_modules"]
 	},
 	"formatter": {
 		"enabled": true,

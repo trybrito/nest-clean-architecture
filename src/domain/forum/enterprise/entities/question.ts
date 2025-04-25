@@ -1,10 +1,10 @@
-import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Slug } from './value-object/slug'
 import type { Optional } from '@/core/@types/optional'
-import dayjs from 'dayjs'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
-import { QuestionAttachmentList } from './question-attachment-list'
+import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import dayjs from 'dayjs'
 import { QuestionBestAnswerChosenEvent } from '../events/question-best-answer-chosen-event'
+import { QuestionAttachmentList } from './question-attachment-list'
+import { Slug } from './value-object/slug'
 
 export interface QuestionProps {
 	authorId: UniqueEntityId
@@ -14,7 +14,7 @@ export interface QuestionProps {
 	slug: Slug
 	attachments: QuestionAttachmentList
 	createdAt: Date
-	updatedAt?: Date
+	updatedAt?: Date | null
 }
 
 export class Question extends AggregateRoot<QuestionProps> {

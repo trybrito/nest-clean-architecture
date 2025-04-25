@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { AnswerQuestionUseCase } from './answer-question'
 import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
+import { AnswerQuestionUseCase } from './answer-question'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: AnswerQuestionUseCase
