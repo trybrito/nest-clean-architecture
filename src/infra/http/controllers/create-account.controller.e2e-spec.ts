@@ -17,7 +17,7 @@ describe('Create account (E2E)', () => {
 		prisma = moduleRef.get(PrismaService)
 
 		await app.init()
-	})
+	}, 2000)
 
 	test('[POST] /accounts', async () => {
 		const response = await request(app.getHttpServer()).post('/accounts').send({
