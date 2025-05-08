@@ -1,5 +1,11 @@
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	Post,
+	UseGuards,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { CurrentUser } from '../../auth/current-user-decorator'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
@@ -28,11 +34,15 @@ export class CreateQuestionController {
 		const userId = user.sub
 		const { title, content } = body
 
-		await this.createQuestion.execute({
+		const result = await this.createQuestion.execute({
 			title,
 			content,
 			authorId: userId,
 			attachmentsIds: [],
 		})
+
+		if (result.isLeft()) {
+			throw new BadRequestException()
+		}
 	}
 }

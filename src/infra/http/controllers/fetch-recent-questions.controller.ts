@@ -1,5 +1,11 @@
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
-import { Controller, Get, Query, UseGuards } from '@nestjs/common'
+import {
+	BadRequestException,
+	Controller,
+	Get,
+	Query,
+	UseGuards,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
@@ -28,7 +34,7 @@ export class FetchRecentQuestionsController {
 		})
 
 		if (result.isLeft()) {
-			throw new Error()
+			throw new BadRequestException()
 		}
 
 		const questions = result.value.questions
