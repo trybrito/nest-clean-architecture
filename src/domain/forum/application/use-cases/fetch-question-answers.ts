@@ -1,8 +1,9 @@
 import { type Either, left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
 import type { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
 import type { Answer } from '../../enterprise/entities/answer'
-import type { AnswersRepository } from '../repositories/answers-repository'
+import { AnswersRepository } from '../repositories/answers-repository'
 
 interface FetchQuestionAnswersUseCaseRequest {
 	questionId: string
@@ -16,6 +17,7 @@ type FetchQuestionAnswersUseCaseResponse = Either<
 	}
 >
 
+@Injectable()
 export class FetchQuestionAnswersUseCase {
 	constructor(private answersRepository: AnswersRepository) {}
 

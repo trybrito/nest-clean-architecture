@@ -20,7 +20,7 @@ describe('Fetch recent questions (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	})
+	}, 2000)
 
 	test('[GET] /questions', async () => {
 		const user = await prisma.user.create({

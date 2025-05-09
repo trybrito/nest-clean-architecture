@@ -5,7 +5,7 @@ import request from 'supertest'
 import { AppModule } from '../../app.module'
 import { PrismaService } from '../../database/prisma/prisma.service'
 
-describe('Create question (E2E)', () => {
+describe('Get question by slug (E2E)', () => {
 	let app: INestApplication
 	let prisma: PrismaService
 	let jwt: JwtService
@@ -22,7 +22,7 @@ describe('Create question (E2E)', () => {
 		await app.init()
 	}, 2000)
 
-	test('[POST] /questions', async () => {
+	test('[GET] /questions/:slug', async () => {
 		const user = await prisma.user.create({
 			data: {
 				name: 'John Doe',
@@ -33,22 +33,23 @@ describe('Create question (E2E)', () => {
 
 		const accessToken = jwt.sign({ sub: user.id })
 
-		const response = await request(app.getHttpServer())
-			.post('/questions')
-			.set('Authorization', `Bearer ${accessToken}`)
-			.send({
-				title: 'New Question',
-				content: 'New Content',
-			})
-
-		expect(response.statusCode).toBe(201)
-
-		const createdQuestion = await prisma.question.findFirst({
-			where: {
-				title: 'New Question',
+		await prisma.question.create({
+			data: {
+				authorId: user.id,
+				title: 'Question-1',
+				slug: 'question-1',
+				content: 'Content-1',
 			},
 		})
 
-		expect(createdQuestion).toBeTruthy()
+		const response = await request(app.getHttpServer())
+			.get('/questions/question-1')
+			.set('Authorization', `Bearer ${accessToken}`)
+			.send()
+
+		expect(response.statusCode).toBe(200)
+		expect(response.body).toEqual({
+			question: expect.objectContaining({ title: 'Question-1' }),
+		})
 	})
 })

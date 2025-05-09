@@ -1,12 +1,13 @@
 import { type Either, left, right } from '@/core/either'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
 import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
 import type { Answer } from '../../enterprise/entities/answer'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
-import type { AnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
-import type { AnswersRepository } from '../repositories/answers-repository'
+import { AnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
+import { AnswersRepository } from '../repositories/answers-repository'
 
 interface EditAnswerUseCaseRequest {
 	answerId: string
@@ -22,6 +23,7 @@ type EditAnswerUseCaseResponse = Either<
 	}
 >
 
+@Injectable()
 export class EditAnswerUseCase {
 	constructor(
 		private answersRepository: AnswersRepository,
