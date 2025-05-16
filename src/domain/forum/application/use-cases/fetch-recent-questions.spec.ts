@@ -1,14 +1,20 @@
 import { makeQuestion } from 'tests/factories/forum/make-question'
+import { InMemoryQuestionAttachmentsRepository } from 'tests/repositories/forum/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
 import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
 import { FetchRecentQuestionsUseCase } from './fetch-recent-questions'
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let sut: FetchRecentQuestionsUseCase
 
 describe('Fetch Recent Questions', () => {
 	beforeEach(() => {
-		inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+		inMemoryQuestionAttachmentsRepository =
+			new InMemoryQuestionAttachmentsRepository()
+		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+			inMemoryQuestionAttachmentsRepository,
+		)
 		sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository)
 	})
 
