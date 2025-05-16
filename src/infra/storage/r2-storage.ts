@@ -31,17 +31,17 @@ export class R2Storage implements Uploader {
 	}: UploadParams): Promise<{ url: string }> {
 		const uploadId = randomUUID()
 
-		const uniqueFIlename = `${uploadId}-${fileName}`
+		const uniqueFileName = `${uploadId}-${fileName}`
 
 		await this.client.send(
 			new PutObjectCommand({
 				Bucket: this.envService.get('AWS_BUCKET_NAME'),
-				Key: uniqueFIlename,
+				Key: uniqueFileName,
 				ContentType: fileType,
 				Body: body,
 			}),
 		)
 
-		return { url: uniqueFIlename }
+		return { url: uniqueFileName }
 	}
 }

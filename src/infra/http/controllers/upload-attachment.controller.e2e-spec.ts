@@ -22,7 +22,7 @@ describe('Upload attachment (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[POST] /attachments', async () => {
 		const user = await studentFactory.makePrismaStudent()
@@ -35,5 +35,8 @@ describe('Upload attachment (E2E)', () => {
 			.attach('file', './tests/e2e/sample-upload.jpeg')
 
 		expect(response.statusCode).toBe(201)
+		expect(response.body).toEqual({
+			attachmentId: expect.any(String),
+		})
 	})
 })

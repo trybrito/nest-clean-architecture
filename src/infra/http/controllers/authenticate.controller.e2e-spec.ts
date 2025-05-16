@@ -20,7 +20,7 @@ describe('Authenticate (E2E)', () => {
 		studentFactory = moduleRef.get(StudentFactory)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[POST] /sessions', async () => {
 		await studentFactory.makePrismaStudent({

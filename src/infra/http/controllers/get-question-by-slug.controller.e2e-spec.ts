@@ -26,7 +26,7 @@ describe('Get question by slug (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[GET] /questions/:slug', async () => {
 		const user = await studentFactory.makePrismaStudent()

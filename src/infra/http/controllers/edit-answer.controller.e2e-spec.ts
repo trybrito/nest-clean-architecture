@@ -31,7 +31,7 @@ describe('Edit answer (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[PUT] answers/:id', async () => {
 		const user = await studentFactory.makePrismaStudent()

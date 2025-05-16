@@ -6,7 +6,6 @@ import request from 'supertest'
 import { AnswerFactory } from 'tests/factories/forum/make-answer'
 import { QuestionFactory } from 'tests/factories/forum/make-question'
 import { StudentFactory } from 'tests/factories/forum/make-student'
-import { beforeAll } from 'vitest'
 import { AppModule } from '../../app.module'
 
 describe('Fetch question answers (E2E)', () => {
@@ -29,7 +28,7 @@ describe('Fetch question answers (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[GET] /questions/:questionId/answers', async () => {
 		const user = await studentFactory.makePrismaStudent()

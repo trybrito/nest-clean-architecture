@@ -7,7 +7,6 @@ import { AnswerFactory } from 'tests/factories/forum/make-answer'
 import { AnswerCommentFactory } from 'tests/factories/forum/make-answer-comment'
 import { QuestionFactory } from 'tests/factories/forum/make-question'
 import { StudentFactory } from 'tests/factories/forum/make-student'
-import { beforeAll } from 'vitest'
 import { AppModule } from '../../app.module'
 
 describe('Fetch question comments (E2E)', () => {
@@ -37,7 +36,7 @@ describe('Fetch question comments (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[GET] /answers/:answerId/comments', async () => {
 		const user = await studentFactory.makePrismaStudent()

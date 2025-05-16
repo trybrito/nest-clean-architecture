@@ -28,7 +28,7 @@ describe('Comment on question (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[POST] /questions/:questionId/comments', async () => {
 		const user = await studentFactory.makePrismaStudent()

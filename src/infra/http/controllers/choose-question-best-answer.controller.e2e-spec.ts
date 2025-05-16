@@ -31,7 +31,7 @@ describe('Choose question best answer (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[PATCH] answers/:answerId/choose-as-best', async () => {
 		const user = await studentFactory.makePrismaStudent()

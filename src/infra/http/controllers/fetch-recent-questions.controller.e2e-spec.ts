@@ -5,7 +5,6 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { QuestionFactory } from 'tests/factories/forum/make-question'
 import { StudentFactory } from 'tests/factories/forum/make-student'
-import { beforeAll } from 'vitest'
 import { AppModule } from '../../app.module'
 
 describe('Fetch recent questions (E2E)', () => {
@@ -26,7 +25,7 @@ describe('Fetch recent questions (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[GET] /questions', async () => {
 		const user = await studentFactory.makePrismaStudent()

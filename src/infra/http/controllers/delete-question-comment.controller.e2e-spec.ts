@@ -31,7 +31,7 @@ describe('Delete question comment (E2E)', () => {
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
-	}, 2000)
+	})
 
 	test('[DELETE] /questions/comments/:id', async () => {
 		const user = await studentFactory.makePrismaStudent()
