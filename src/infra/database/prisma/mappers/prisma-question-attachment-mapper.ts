@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
-import { Attachment as PrismaAttachment } from '@prisma/client'
+import { Prisma, Attachment as PrismaAttachment } from '@prisma/client'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class PrismaQuestionAttachmentMapper {
@@ -16,5 +16,24 @@ export class PrismaQuestionAttachmentMapper {
 			},
 			new UniqueEntityId(raw.id),
 		)
+	}
+
+	static toPrismaUpdateMany(
+		attachments: QuestionAttachment[],
+	): Prisma.AttachmentUpdateManyArgs {
+		const attachmentIds = attachments.map((attachment) =>
+			attachment.attachmentId.toString(),
+		)
+
+		return {
+			where: {
+				id: {
+					in: attachmentIds,
+				},
+			},
+			data: {
+				questionId: attachments[0].questionId.toString(),
+			},
+		}
 	}
 }
