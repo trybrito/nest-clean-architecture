@@ -1,7 +1,6 @@
-import { type Either, left, right } from '@/core/either'
+import { type Either, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
-import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
-import type { AnswerComment } from '../../enterprise/entities/answer-comment'
+import { CommentWithAuthor } from '../../enterprise/entities/value-object/comment-with-author'
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
 
 interface FetchAnswerCommentsUseCaseRequest {
@@ -10,9 +9,9 @@ interface FetchAnswerCommentsUseCaseRequest {
 }
 
 type FetchAnswerCommentsUseCaseResponse = Either<
-	ResourceNotFoundError,
+	null,
 	{
-		answerComments: AnswerComment[]
+		comments: CommentWithAuthor[]
 	}
 >
 
@@ -24,15 +23,11 @@ export class FetchAnswerCommentsUseCase {
 		answerId,
 		page,
 	}: FetchAnswerCommentsUseCaseRequest): Promise<FetchAnswerCommentsUseCaseResponse> {
-		const answerComments = await this.commentsRepository.findManyByAnswerId(
+		const comments = await this.commentsRepository.findManyByAnswerIdWithAuthor(
 			answerId,
 			{ page },
 		)
 
-		if (answerComments.length <= 0) {
-			return left(new ResourceNotFoundError())
-		}
-
-		return right({ answerComments })
+		return right({ comments })
 	}
 }

@@ -1,28 +1,46 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { makeAnswerComment } from 'tests/factories/forum/make-answer-comment'
+import { makeStudent } from 'tests/factories/forum/make-student'
 import { InMemoryAnswerCommentsRepository } from 'tests/repositories/forum/in-memory-answer-comments-repository'
-import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
+import { InMemoryStudentsRepository } from 'tests/repositories/forum/in-memory-students-repository'
 import { FetchAnswerCommentsUseCase } from './fetch-answer-comments'
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let sut: FetchAnswerCommentsUseCase
 
 describe('Fetch Answer Comments', () => {
 	beforeEach(() => {
-		inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository()
+		inMemoryStudentsRepository = new InMemoryStudentsRepository()
+		inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository(
+			inMemoryStudentsRepository,
+		)
 		sut = new FetchAnswerCommentsUseCase(inMemoryAnswerCommentsRepository)
 	})
 
 	it('should be able to fetch answer comments', async () => {
-		await inMemoryAnswerCommentsRepository.create(
-			makeAnswerComment({ answerId: new UniqueEntityId('answer-1') }),
-		)
-		await inMemoryAnswerCommentsRepository.create(
-			makeAnswerComment({ answerId: new UniqueEntityId('answer-1') }),
-		)
-		await inMemoryAnswerCommentsRepository.create(
-			makeAnswerComment({ answerId: new UniqueEntityId('answer-2') }),
-		)
+		const student = makeStudent({ name: 'John Doe' })
+
+		inMemoryStudentsRepository.items.push(student)
+
+		const comment1 = makeAnswerComment({
+			answerId: new UniqueEntityId('answer-1'),
+			authorId: student.id,
+		})
+
+		const comment2 = makeAnswerComment({
+			answerId: new UniqueEntityId('answer-1'),
+			authorId: student.id,
+		})
+
+		const comment3 = makeAnswerComment({
+			answerId: new UniqueEntityId('answer-1'),
+			authorId: student.id,
+		})
+
+		await inMemoryAnswerCommentsRepository.create(comment1)
+		await inMemoryAnswerCommentsRepository.create(comment2)
+		await inMemoryAnswerCommentsRepository.create(comment3)
 
 		const result = await sut.execute({
 			answerId: 'answer-1',
@@ -30,15 +48,36 @@ describe('Fetch Answer Comments', () => {
 		})
 
 		expect(result.isRight()).toBe(true)
-		if (result.isRight()) {
-			expect(result.value.answerComments).toHaveLength(2)
-		}
+		expect(result.value?.comments).toHaveLength(3)
+		expect(result.value?.comments).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					author: 'John Doe',
+					commentId: comment1.id,
+				}),
+				expect.objectContaining({
+					author: 'John Doe',
+					commentId: comment2.id,
+				}),
+				expect.objectContaining({
+					author: 'John Doe',
+					commentId: comment3.id,
+				}),
+			]),
+		)
 	})
 
 	it('should be able to fetch paginated answer comments', async () => {
+		const student = makeStudent({ name: 'John Doe' })
+
+		inMemoryStudentsRepository.items.push(student)
+
 		for (let i = 1; i <= 22; i++) {
 			await inMemoryAnswerCommentsRepository.create(
-				makeAnswerComment({ answerId: new UniqueEntityId('answer-1') }),
+				makeAnswerComment({
+					answerId: new UniqueEntityId('answer-1'),
+					authorId: student.id,
+				}),
 			)
 		}
 
@@ -48,21 +87,6 @@ describe('Fetch Answer Comments', () => {
 		})
 
 		expect(result.isRight()).toBe(true)
-		if (result.isRight()) {
-			expect(result.value.answerComments).toHaveLength(2)
-		}
-	})
-
-	it('should not be able to access an out of range page', async () => {
-		for (let i = 1; i <= 22; i++) {
-			await inMemoryAnswerCommentsRepository.create(
-				makeAnswerComment({ answerId: new UniqueEntityId('answer-1') }),
-			)
-		}
-
-		const result = await sut.execute({ answerId: 'answer-1', page: 3 })
-
-		expect(result.isLeft()).toBe(true)
-		expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+		expect(result.value?.comments).toHaveLength(2)
 	})
 })
