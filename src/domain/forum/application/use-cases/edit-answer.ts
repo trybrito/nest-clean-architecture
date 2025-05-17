@@ -38,6 +38,8 @@ export class EditAnswerUseCase {
 	}: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
 		const answer = await this.answersRepository.findById(answerId)
 
+		console.log(answer)
+
 		if (!answer) {
 			return left(new ResourceNotFoundError())
 		}
@@ -45,6 +47,8 @@ export class EditAnswerUseCase {
 		if (authorId !== answer.authorId.toString()) {
 			return left(new NotAllowedError())
 		}
+
+		console.log('CHEGOU AQUI')
 
 		const currentAnswerAttachments =
 			await this.answerAttachmentsRepository.findManyByAnswerId(answerId)

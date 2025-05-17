@@ -1,5 +1,6 @@
 import { makeAnswer } from 'tests/factories/forum/make-answer'
 import { makeQuestion } from 'tests/factories/forum/make-question'
+import { InMemoryAnswerAttachmentsRepository } from 'tests/repositories/forum/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'tests/repositories/forum/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
@@ -13,6 +14,7 @@ import {
 } from '../use-cases/send-notification'
 import { OnQuestionBestAnswerChosen } from './on-questions-best-answer-chosen'
 
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionRepository: InMemoryQuestionsRepository
@@ -27,7 +29,11 @@ let sendNotificationExecuteSpy: MockInstance<
 
 describe('On Question Best Answer Chosen', () => {
 	beforeEach(() => {
-		inMemoryAnswersRepository = new InMemoryAnswersRepository()
+		inMemoryAnswerAttachmentsRepository =
+			new InMemoryAnswerAttachmentsRepository()
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		)
 		inMemoryQuestionAttachmentsRepository =
 			new InMemoryQuestionAttachmentsRepository()
 		inMemoryQuestionRepository = new InMemoryQuestionsRepository(

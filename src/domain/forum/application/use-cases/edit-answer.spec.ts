@@ -6,15 +6,17 @@ import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-an
 import { NotAllowedError } from '../../../../core/errors/custom/not-allowed-error'
 import { EditAnswerUseCase } from './edit-answer'
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
+let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase
 
 describe('Edit Answer', () => {
 	beforeEach(() => {
-		inMemoryAnswersRepository = new InMemoryAnswersRepository()
 		inMemoryAnswerAttachmentsRepository =
 			new InMemoryAnswerAttachmentsRepository()
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		)
 
 		sut = new EditAnswerUseCase(
 			inMemoryAnswersRepository,
@@ -88,5 +90,43 @@ describe('Edit Answer', () => {
 
 		expect(result.isLeft()).toBe(true)
 		expect(result.value).toBeInstanceOf(NotAllowedError)
+	})
+
+	it('should sync new and removed attachments when editing an answer', async () => {
+		const newAnswer = makeAnswer(
+			{
+				authorId: new UniqueEntityId('author-1'),
+			},
+			new UniqueEntityId('answer-1'),
+		)
+
+		await inMemoryAnswersRepository.create(newAnswer)
+
+		inMemoryAnswerAttachmentsRepository.items.push(
+			makeAnswerAttachment({
+				answerId: newAnswer.id,
+				attachmentId: new UniqueEntityId('1'),
+			}),
+			makeAnswerAttachment({
+				answerId: newAnswer.id,
+				attachmentId: new UniqueEntityId('2'),
+			}),
+		)
+
+		const result = await sut.execute({
+			answerId: newAnswer.id.toString(),
+			authorId: 'author-1',
+			content: 'Example content',
+			attachmentsIds: ['1', '3'],
+		})
+
+		expect(result.isRight()).toBe(true)
+		expect(inMemoryAnswerAttachmentsRepository.items).toHaveLength(2)
+		expect(inMemoryAnswerAttachmentsRepository.items).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+				expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
+			]),
+		)
 	})
 })
