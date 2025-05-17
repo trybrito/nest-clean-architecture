@@ -5,7 +5,7 @@ export abstract class AnswerCommentsRepository {
 	abstract findById(answerCommentId: string): Promise<AnswerComment | null>
 	abstract findManyByAnswerId(
 		answerId: string,
-		param: PaginationParams,
+		params: PaginationParams,
 	): Promise<AnswerComment[]>
 	abstract create(answerComment: AnswerComment): Promise<void>
 	abstract delete(answerComment: AnswerComment): Promise<void>
