@@ -1,19 +1,27 @@
 import { makeQuestion } from 'tests/factories/forum/make-question'
+import { InMemoryAttachmentsRepository } from 'tests/repositories/forum/in-memory-attachments-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'tests/repositories/forum/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
+import { InMemoryStudentsRepository } from 'tests/repositories/forum/in-memory-students-repository'
 import { ResourceNotFoundError } from '../../../../core/errors/custom/resource-not-found-error'
 import { FetchRecentQuestionsUseCase } from './fetch-recent-questions'
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+let inMemoryAttachmentRepository: InMemoryAttachmentsRepository
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let sut: FetchRecentQuestionsUseCase
 
 describe('Fetch Recent Questions', () => {
 	beforeEach(() => {
 		inMemoryQuestionAttachmentsRepository =
 			new InMemoryQuestionAttachmentsRepository()
+		inMemoryAttachmentRepository = new InMemoryAttachmentsRepository()
+		inMemoryStudentsRepository = new InMemoryStudentsRepository()
 		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
 			inMemoryQuestionAttachmentsRepository,
+			inMemoryAttachmentRepository,
+			inMemoryStudentsRepository,
 		)
 		sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository)
 	})

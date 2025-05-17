@@ -45,8 +45,6 @@ export class PrismaAnswerAttachmentsRepository
 			},
 		})
 
-		console.log(answerAttachments)
-
 		return answerAttachments.map(PrismaAnswerAttachmentMapper.toDomain)
 	}
 
