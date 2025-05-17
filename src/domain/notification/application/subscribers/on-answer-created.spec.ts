@@ -2,8 +2,10 @@ import { makeAnswer } from 'tests/factories/forum/make-answer'
 import { makeQuestion } from 'tests/factories/forum/make-question'
 import { InMemoryAnswerAttachmentsRepository } from 'tests/repositories/forum/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'tests/repositories/forum/in-memory-answers-repository'
+import { InMemoryAttachmentsRepository } from 'tests/repositories/forum/in-memory-attachments-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'tests/repositories/forum/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'tests/repositories/forum/in-memory-questions-repository'
+import { InMemoryStudentsRepository } from 'tests/repositories/forum/in-memory-students-repository'
 import { InMemoryNotificationsRepository } from 'tests/repositories/notification/in-memory-notifications-repository'
 import { waitFor } from 'tests/utils/wait-for'
 import type { MockInstance } from 'vitest'
@@ -19,6 +21,8 @@ let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionRepository: InMemoryQuestionsRepository
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let sendNotificationUseCase: SendNotificationUseCase
 
 let sendNotificationExecuteSpy: MockInstance<
@@ -36,8 +40,12 @@ describe('On Answer Created', () => {
 		)
 		inMemoryQuestionAttachmentsRepository =
 			new InMemoryQuestionAttachmentsRepository()
+		inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+		inMemoryStudentsRepository = new InMemoryStudentsRepository()
 		inMemoryQuestionRepository = new InMemoryQuestionsRepository(
 			inMemoryQuestionAttachmentsRepository,
+			inMemoryAttachmentsRepository,
+			inMemoryStudentsRepository,
 		)
 		inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
 
